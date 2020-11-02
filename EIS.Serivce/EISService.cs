@@ -48,11 +48,16 @@ namespace ESI.Service
                     var content = new StringContent(payload, Encoding.UTF8, "application/json");
                     var response = await client.PostAsync("https://gorest.co.in/public-api/users", content);
                     var returnValue = response.Content.ReadAsStringAsync().Result;
-                    throw new Exception($"Failed to POST data: ({response.StatusCode}): {returnValue}");
+                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    {
+                        throw new Exception($"Failed to POST data: ({response.StatusCode}): {returnValue}");
+                    }
+                        
                 }
-                catch (OperationCanceledException)
+                catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
+                    throw;
                 }
             }
         }
