@@ -69,7 +69,7 @@ namespace EIS.ViewModel.Screen
         public IEnumerable<KeyValuePair> GenderEnumVal => EnumValuesToList.GetEnum<Sex>();
         public IEnumerable<KeyValuePair> StatusEnumVal => EnumValuesToList.GetEnum<Status>();
 
-        public ICommand SaveCommand => new RelayCommand(x => SaveEmpData());
+        public ICommand SaveCommand => new RelayCommand(x => SaveEmpData(),x=> HasError);
       
 
         private void SaveEmpData()
@@ -82,10 +82,17 @@ namespace EIS.ViewModel.Screen
                 status = Status.ToString()
             };
             service.AsyncPost(emp);
+            OnClose?.Invoke(this, null);
         }
 
         public ICommand CancelCommand => new RelayCommand(x => Close());
-        public bool HasError => !(!string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Email));
+        public bool HasError => ValidateField();
+
+        private bool ValidateField()
+        {
+            if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Email)) return false;
+            return regex.IsMatch(Email);
+        }
         public void Close()
         {
             OnClose?.Invoke(this, null);

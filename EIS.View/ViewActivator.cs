@@ -43,6 +43,7 @@ namespace EIS.View
             {
                 DataContext = addEmployeeView
             };
+            addEmployeeView.OnClose += (sender, args) => { addEmployee.Close(); };
             ShowDialog(addEmployee);
         }
     }

@@ -15,6 +15,9 @@ namespace EIS.ViewModel.Screen
         IEnumerable<KeyValuePair> GenderEnumVal { get; }
         IEnumerable<KeyValuePair> StatusEnumVal { get; }
         bool HasError { get; }
+        event EventHandler OnClose;
+        void Close();
+
 
     }
     public enum Sex
