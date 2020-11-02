@@ -21,12 +21,10 @@ namespace ESI.Service
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    var response = await client.GetAsync($"https://gorest.co.in/public-api/users");
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<EmployeeData>(content);
-                }
+                using var client = new HttpClient();
+                var response = await client.GetAsync($"https://gorest.co.in/public-api/users");
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EmployeeData>(content);
             }
             catch (Exception e)
             {
@@ -61,13 +59,11 @@ namespace ESI.Service
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    var response =
-                        await client.GetAsync($"https://gorest.co.in/public-api/users?first_name={firstName}");
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<EmployeeData>(content);
-                }
+                using var client = new HttpClient();
+                var response =
+                    await client.GetAsync($"https://gorest.co.in/public-api/users?first_name={firstName}");
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<EmployeeData>(content);
             }
             catch (Exception e)
             {
