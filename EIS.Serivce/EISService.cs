@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ESI.Service
 {
-    public class EISService: IEISService
+    public class EISService : IEISService
     {
         public async Task<EmployeeData> GetEmployees()
         {
@@ -33,32 +33,27 @@ namespace ESI.Service
                 Console.WriteLine(e);
                 throw;
             }
-         
         }
+
         public async Task AsyncPost(EmployeeInfo employeeInfo)
         {
-            using (var client = new HttpClient())
+            try
             {
-                try
-                {
-                    client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer",
-                            "fa114107311259f5f33e70a5d85de34a2499b4401da069af0b1d835cd5ec0d56");
-                    var payload = JsonConvert.SerializeObject(employeeInfo);
-                    var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync("https://gorest.co.in/public-api/users", content);
-                    var returnValue = response.Content.ReadAsStringAsync().Result;
-                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                    {
-                        throw new Exception($"Failed to POST data: ({response.StatusCode}): {returnValue}");
-                    }
-                        
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer",
+                        "fa114107311259f5f33e70a5d85de34a2499b4401da069af0b1d835cd5ec0d56");
+                var payload = JsonConvert.SerializeObject(employeeInfo);
+                var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("https://gorest.co.in/public-api/users", content);
+                var returnValue = response.Content.ReadAsStringAsync().Result;
+                if (response.StatusCode != HttpStatusCode.OK)
+                    throw new Exception($"Failed to POST data: ({response.StatusCode}): {returnValue}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
@@ -68,7 +63,8 @@ namespace ESI.Service
             {
                 using (var client = new HttpClient())
                 {
-                    var response = await client.GetAsync($"https://gorest.co.in/public-api/users?first_name={firstName}");
+                    var response =
+                        await client.GetAsync($"https://gorest.co.in/public-api/users?first_name={firstName}");
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<EmployeeData>(content);
                 }
@@ -78,9 +74,6 @@ namespace ESI.Service
                 Console.WriteLine(e);
                 throw;
             }
-
         }
-
     }
 }
-
