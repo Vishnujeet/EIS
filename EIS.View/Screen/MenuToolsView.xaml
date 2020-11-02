@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="EIS.View.Screen.MenuToolsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EIS.View.Screen"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resource/Style/Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>        
+        <Border  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label Content="Employee Info System" FontSize="18" FontWeight="Bold"></Label>
+        </Border>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Label Content="Search" Margin="5"/>
+            <TextBox  MinWidth="120"  Margin="5" Name="SerachBox"/>
+            <Button Content="Search" Margin="5" Style="{StaticResource Button-Style}" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=SerachBox,Path=Text}"/>
+        </StackPanel>
+      
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0">
+            <Button Style="{StaticResource Button-Style}" Content="loadEmpData" Command="{Binding LoadEmployeeData}" Margin="0,0,5,0"/>
+            <Button Style="{StaticResource Button-Style}" Content="AddEmp" Command="{Binding AddCommand}" Margin="0,0,5,0"/>
+            <Button Style="{StaticResource Button-Style}" Content="ExportToCSV" Command="{Binding ExportCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
